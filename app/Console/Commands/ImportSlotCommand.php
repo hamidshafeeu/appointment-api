@@ -44,7 +44,7 @@ class ImportSlotCommand extends Command
         if(File::exists( $file )) {
             
             $slots = $this->withProgressBar(json_decode(File::get($file)), function ($slot) {
-                $slot = Slot::updateOrCreate([
+                Slot::updateOrCreate([
                     'center_id' => $slot->center_id,
                     'date' => $slot->date,
                     'start' => $slot->start,
