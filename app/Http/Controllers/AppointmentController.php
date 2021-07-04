@@ -13,7 +13,7 @@ class AppointmentController extends Controller
     public function __invoke(BookingRequest $bookingRequest)
     {
 
-        if( Booking::pending()->identifier($bookingRequest->auth->get('identifier'))->exists() ) {
+        if( Booking::notRejected()->identifier($bookingRequest->auth->get('identifier'))->exists() ) {
             return response()->json([
                 'message' => 'You already have a pending appointment.'
             ], 406);
@@ -22,7 +22,7 @@ class AppointmentController extends Controller
         if($slot = Slot::find(request()->input('slot.id'))) {
 
             if(
-                Booking::where('status', '<>', 'rejected')->slot(request()->input('slot.id'))->count() < $slot->allocations )
+                Booking::notRejected()->slot(request()->input('slot.id'))->count() < $slot->allocations )
             {
                 $data = $bookingRequest->merge($bookingRequest->auth->getPayload())->all();
                 publish($data);
@@ -36,7 +36,7 @@ class AppointmentController extends Controller
                 ]);
                 
                 return response()->json([
-                    'message' => 'Appointment successfully requested. We will get back to you shortly.'
+                    'message' => 'Appointment successfully requested. You\'ll get a mssage with details and QR code shortly on confirmation.'
                 ], 201);
             }
 
