@@ -32,7 +32,17 @@ class Slot extends Model
         return $this->belongsTo(Center::class);
     }
 
-    public function getDateAttribute($v)
+    public function getStartAttribute($v)
+    {
+        return substr($v,0,5);
+    }
+   
+    public function getEndAttribute($v)
+    {
+        return substr($v,0,5);
+    }
+
+    public function getFormattedDateAttribute($v)
     {
         return Carbon::parse($v)->format('l, d M Y');
     }

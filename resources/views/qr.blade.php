@@ -17,7 +17,7 @@
                 <div class="flex">
                     <div class="-ml-2 mr-2 flex items-center md:hidden"><button type="button"
                             aria-controls="mobile-menu" aria-expanded="false"
-                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"><span
+                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-500"><span
                                 class="sr-only">Open main menu</span><svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" class="block h-6 w-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -31,7 +31,7 @@
                             src="https://my.health.mv/img/dhifaau-logo-primary.7ec8b664.png" alt=""
                             class="block h-8 w-auto"></div>
                     <div class="hidden md:ml-6 md:flex md:space-x-8"><a href="#"
-                            class="px-6 border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            class="px-6 border-gray-200 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                             Appointment </a><a href="https://my.health.mv"
                             class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                             my<b>Health</b></a></div>
@@ -39,8 +39,8 @@
             </div>
         </div>
     </nav>
-    <div class="relative py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto bg-indigo-600 lg:bg-transparent lg:px-8">
+    <div class="relative py-0 md:py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto bg-gray-300 lg:bg-transparent lg:px-8">
             <div class="lg:grid lg:grid-cols-12">
                 <div class="relative z-10 lg:col-start-1 lg:row-start-1 lg:col-span-4 lg:py-16 lg:bg-transparent pt-6">
                     <div class="max-w-md mx-auto px-4 sm:max-w-3xl sm:px-6 lg:max-w-none lg:p-0">
@@ -54,14 +54,14 @@
                 </div>
 
                 <div
-                    class="relative bg-indigo-600 lg:col-start-3 lg:row-start-1 lg:col-span-10 lg:rounded-3xl lg:grid lg:grid-cols-10 lg:items-center">
+                    class="relative lg:col-start-3 lg:row-start-1 lg:col-span-10 lg:rounded-3xl lg:grid lg:grid-cols-10 lg:items-center">
                     <div class="hidden absolute inset-0 overflow-hidden rounded-3xl lg:block" aria-hidden="true">
                         <svg class="absolute bottom-full left-full transform translate-y-1/3 -translate-x-2/3 xl:bottom-auto xl:top-0 xl:translate-y-0"
                             width="404" height="384" fill="none" viewBox="0 0 404 384" aria-hidden="true">
                             <defs>
                                 <pattern id="64e643ad-2176-4f86-b3d7-f2c5da3b6a6d" x="0" y="0" width="20" height="20"
                                     patternUnits="userSpaceOnUse">
-                                    <rect x="0" y="0" width="4" height="4" class="text-indigo-500"
+                                    <rect x="0" y="0" width="4" height="4" class="text-gray-200"
                                         fill="currentColor" />
                                 </pattern>
                             </defs>
@@ -72,7 +72,7 @@
                             <defs>
                                 <pattern id="64e643ad-2176-4f86-b3d7-f2c5da3b6a6d" x="0" y="0" width="20" height="20"
                                     patternUnits="userSpaceOnUse">
-                                    <rect x="0" y="0" width="4" height="4" class="text-indigo-500"
+                                    <rect x="0" y="0" width="4" height="4" class="text-gray-200"
                                         fill="currentColor" />
                                 </pattern>
                             </defs>
@@ -81,12 +81,45 @@
                     </div>
                     <div
                         class="relative max-w-md py-12 px-4 space-y-6 sm:max-w-3xl sm:py-16 sm:px-6 lg:max-w-none lg:p-0 lg:col-start-4 lg:col-span-6">
-                        <h2 class="text-3xl font-extrabold text-white" id="join-heading">
-                            {{ $booking->slot->center->name }}</h2>
-                        <p class="text-lg text-white">{{ $booking->slot->start }} TO {{ $booking->slot->end }}</p>
-                        <p class="text-lg text-white">{{ $booking->slot->date }}</p>
+                        <h2 class="text-3xl text-center md:text-left font-extrabold text-gray-600" id="join-heading">
+                            Vaccine Appoint Confirmation</h2>
+                            <div class="border-b border-gray-200 flex flex-wrap pb-6">
+                                <div class="w-full md:w-1/2">
+                                    <div class="text-sm text-gray-400">Name</div>
+                                    <div class="text-lg text-gray-600">{{ $booking->name }}</div>
+                                </div>
+                                <div class="w-full md:w-1/2">
+                                    <div class="text-sm text-gray-400">ID</div>
+                                    <div class="text-lg text-gray-600">{{ $booking->identifier }}</div>
+                                </div>
+                                <div class="w-full md:w-1/2">
+                                    <div class="text-sm text-gray-400">Site</div>
+                                    <div class="text-lg text-gray-600">{{ $booking->slot->center->name }}</div>
+                                </div>
+                                <div class="w-full md:w-1/2">
+                                    <div class="text-sm text-gray-400">Date</div>
+                                    <div class="text-lg text-gray-600">{{ $booking->slot->formatted_date }} @ {{ $booking->slot->start }}-{{ $booking->slot->end }}</div>
+                                </div>
+                                {{-- <div class="text-lg text-gray-600">{{ $booking->slot->start }} TO {{ $booking->slot->end }}</div>
+                                <div class="text-lg text-gray-600">{{ $booking->slot->start }} TO {{ $booking->slot->end }}</div>
+                                <div class="text-lg text-gray-600">{{ $booking->slot->date }}</div> --}}
+                            </div>
+                            <div>
+                                <p>You must be present at the vaccination center at least 15 minutes before your scheduled appointment time.</p>
+                                <p>If you miss your scheduled appointment time, your booking will be <b>CANCELLED</b>, and you will have to book a new appointment for a different date.</p>
+                                <div>
+                                    Before you go to the vaccination center, remember to
+                                    <div class="ml-4 text-gray-600">- Take this QR code with you</div> 
+                                    <div class="ml-4 text-gray-600">- Take your ID card, passport, or drivers license</div> 
+                                    <div class="ml-4 text-gray-600">- Take the QR code you get with your schedule confirmation text</div> 
+                                    <div class="ml-4 text-gray-600">- Take your vaccine card</div> 
+                                    <div class="ml-4 text-gray-600">- Take your prescriptions for any long term medications</div> 
+                                    <div class="ml-4 text-gray-600">- Wear a short sleeved shirt, or loose fitting clothes that allow easy access to your upper arm</div> 
+                                    <div class="ml-4 text-gray-600">- Eat a filling meal</div> 
+                                </div>
+                            </div>
                         <a class="bg-red-700 bg-white block border border-transparent font-medium hover:bg-red-500 px-5 py-3 rounded-md shadow-md sm:inline-block sm:w-auto text-base text-center text-red-50 w-full"
-                            href="#">Cancel Appointment</a>
+                            href="/">Cancel Appointment</a>
                     </div>
                 </div>
             </div>
