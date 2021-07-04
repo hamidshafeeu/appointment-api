@@ -20,6 +20,11 @@ class Booking extends Model
     {
         return $q->where('status', 'pending');
     }
+    
+    public function scopeSlot($q, $slot_id)
+    {
+        return $q->where('slot_id', $slot_id);
+    }
 
     public function slot()
     {
