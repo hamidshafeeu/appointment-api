@@ -44,5 +44,15 @@ return [
         'project' => env('GCP_PROJECT'),
         'auth' => env('GCP_AUTH_FILE'),
     ],
+    
+    'dhifaau' => [
+        'url' => env('DHIFAAU_URL'),
+        'token' => env('DHIFAAU_TOKEN'),
+    ],
+    
+    'ob' => [
+        'url' => env('OB_URL'),
+        'token' => env('OB_TOKEN'),
+    ],
 
 ];
