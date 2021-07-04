@@ -6,6 +6,7 @@ use App\Models\Booking;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookingRequest;
+use App\Jobs\ProcessAppointment;
 use App\Models\Slot;
 
 class AppointmentController extends Controller
@@ -42,13 +43,15 @@ class AppointmentController extends Controller
                 $data = $bookingRequest->merge($bookingRequest->auth->getPayload())->all();
                 publish($data);
                 // dd($data);
-                Booking::create([
+                $booking = Booking::create([
                     'slot_id' => request()->input('slot.id'),
                     'name' => request('name'),
                     'identifier' => request()->auth->get('identifier'),
                     'phone' => request()->auth->get('phone'),
                     'hash' => Str::random(32),
                 ]);
+                
+                dispatch(new ProcessAppointment($booking));
                 
                 return response()->json([
                     'message' => 'Appointment successfully requested. You\'ll get a mssage with details and QR code shortly on confirmation.'
