@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,11 @@ class Slot extends Model
     public function center()
     {
         return $this->belongsTo(Center::class);
+    }
+
+    public function getDateAttribute($v)
+    {
+        return Carbon::parse($v)->format('l, d M Y');
     }
 }
 
