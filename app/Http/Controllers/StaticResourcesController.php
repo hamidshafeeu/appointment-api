@@ -26,7 +26,7 @@ class StaticResourcesController extends Controller
     
     public function center_dates($id, Dhifaau $dhifaau)
     {
-        return Slot::where('date', '>=', now())->get()->pluck('date')->unique()->sort(); //$dhifaau->getOpenDates();
+        return array_values(Slot::where('date', '>=', now())->get()->pluck('date')->unique()->sort()->toArray());
     }
     
     public function center_date_slots($id, $date)

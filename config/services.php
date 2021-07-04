@@ -39,5 +39,10 @@ return [
         'token' => env('SMS_TOKEN'),
         'endpoint' => env('SMS_ENDPOINT'),
     ],
+    
+    'pubsub' => [
+        'project' => env('GCP_PROJECT'),
+        'auth' => env('GCP_AUTH_FILE'),
+    ],
 
 ];

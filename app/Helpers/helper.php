@@ -28,8 +28,8 @@ function shortLink($link)
 function publish($data)
 {
     $pubSub = new PubSubClient([
-        "projectId" => 'covid19portal',
-        'keyFilePath' =>  '/Users/yameen/.gcp_keys/gcp-pubsubtest.json'
+        "projectId" => config('services.pubsub.project'),
+        'keyFilePath' =>  config('services.pubsub.auth')
 
     ]);
     $topic = $pubSub->topic('samples');
