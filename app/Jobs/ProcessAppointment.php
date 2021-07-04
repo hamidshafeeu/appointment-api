@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Helpers\HEOC;
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\URL;
@@ -33,13 +34,26 @@ class ProcessAppointment implements ShouldQueue
      */
     public function handle()
     {
-        dispatch(new SendSMS( 
-            $this->booking->phone,  
-            view('sms.appointment', [ 
-                'booking' => $this->booking,
-                'link' => $this->getSignedUrl()
-            ])->render()
-        ));
+        $heoc = app(HEOC::class);
+        if( $heoc->eligibleForAppointment($this->booking->identifier) ) {
+            $this->booking->approve();
+            dispatch(new SendSMS( 
+                $this->booking->phone,  
+                view('sms.appointment', [ 
+                    'booking' => $this->booking,
+                    'link' => $this->getSignedUrl()
+                ])->render()
+            ));
+        }
+        else {
+            $this->booking->reject();
+            dispatch(new SendSMS( 
+                $this->booking->phone,  
+                view('sms.rejection', [ 
+                    'booking' => $this->booking
+                ])->render()
+            ));
+        }
     }
 
     public function getSignedUrl()
