@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Slot;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redis;
 
 class ImportSlotCommand extends Command
 {
@@ -43,11 +44,16 @@ class ImportSlotCommand extends Command
         if(File::exists( $file )) {
             
             $slots = $this->withProgressBar(json_decode(File::get($file)), function ($slot) {
-                Slot::updateOrCreate([
+                $slot = Slot::updateOrCreate([
                     'center_id' => $slot->center_id,
                     'date' => $slot->date,
                     'start' => $slot->start,
                 ], (array)$slot);
+                
+                $cacheKey =  $slot->date.':'.$slot->center_id;
+
+                Redis::set($cacheKey, Slot::date($slot->date)->center($slot->center_id)->get());
+
             });
 
             $this->info(PHP_EOL. count($slots)." slots updated. Summary follows");
