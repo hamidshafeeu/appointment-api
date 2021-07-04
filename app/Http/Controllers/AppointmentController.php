@@ -31,6 +31,7 @@ class AppointmentController extends Controller
                     'slot_id' => request()->input('slot.id'),
                     'name' => request('name'),
                     'identifier' => request()->auth->get('identifier'),
+                    'phone' => request()->auth->get('phone'),
                     'hash' => Str::random(32),
                 ]);
                 
