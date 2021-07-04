@@ -27,6 +27,7 @@ Route::middleware('api-auth:pre-otp')->group(function($router) {
 });
 
 Route::middleware('api-auth:post-otp')->group(function($router) {
+    $router->get('/mine', [StaticResourcesController::class, 'mine']);
     $router->get('/centers', [StaticResourcesController::class, 'centers']);
     $router->get('/atolls', [StaticResourcesController::class, 'atolls']);
     $router->get('/atolls/{id}/islands', [StaticResourcesController::class, 'atoll_islands']);
@@ -34,7 +35,8 @@ Route::middleware('api-auth:post-otp')->group(function($router) {
     $router->get('/island/{id}/centers', [StaticResourcesController::class, 'island_centers']);
     $router->get('/center/{id}/dates', [StaticResourcesController::class, 'center_dates']);
     $router->get('/center/{id}/{date}/slots', [StaticResourcesController::class, 'center_date_slots']);
-    $router->post('/appointment', AppointmentController::class);
+    $router->post('/appointment/{booking}/cancel', [AppointmentController::class, 'cancel']);
+    $router->post('/appointment', [AppointmentController::class, 'store']);
 });
 
 Route::middleware('admin')->group(function($router) {

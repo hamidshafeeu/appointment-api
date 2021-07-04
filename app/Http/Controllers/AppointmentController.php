@@ -10,7 +10,22 @@ use App\Models\Slot;
 
 class AppointmentController extends Controller
 {
-    public function __invoke(BookingRequest $bookingRequest)
+    public function cancel(Booking $booking)
+    {
+        if( $booking->is_cancellable ) {
+            if($booking->reject()) {
+                return response()->json([
+                    'message' => 'Your appointment is now cancelled.',
+                ], 200);
+            }
+        }
+
+        return response()->json([
+            'message' => 'Your appointment is not cancellable.',
+        ], 406);
+    }
+
+    public function store(BookingRequest $bookingRequest)
     {
 
         if( Booking::notRejected()->identifier($bookingRequest->auth->get('identifier'))->exists() ) {

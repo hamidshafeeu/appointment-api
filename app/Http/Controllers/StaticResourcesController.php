@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Slot;
 use App\Helpers\Dhifaau;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
@@ -40,5 +41,11 @@ class StaticResourcesController extends Controller
         return response()->json(
             json_decode(Redis::get('centers'))
         );
+    }
+
+    public function mine()
+    {
+        $identifier = request()->auth->get('identifier');
+        return Booking::with('slot.center')->identifier( $identifier )->get();
     }
 }
