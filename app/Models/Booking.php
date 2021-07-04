@@ -21,6 +21,11 @@ class Booking extends Model
         return $q->where('status', 'pending');
     }
     
+    public function scopeNotRejected($q)
+    {
+        return $q->where('status', '<>', 'rejected');
+    }
+    
     public function scopeSlot($q, $slot_id)
     {
         return $q->where('slot_id', $slot_id);
@@ -29,6 +34,16 @@ class Booking extends Model
     public function slot()
     {
         return $this->belongsTo(Slot::class);
+    }
+
+    public function approve()
+    {
+        return $this->update(['status' => 'approved']);
+    }
+    
+    public function reject()
+    {
+        return $this->update(['status' => 'rejected']);
     }
 
 }
