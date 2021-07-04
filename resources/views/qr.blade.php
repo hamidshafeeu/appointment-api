@@ -82,7 +82,7 @@
                     <div
                         class="relative max-w-md py-12 px-4 space-y-6 sm:max-w-3xl sm:py-16 sm:px-6 lg:max-w-none lg:p-0 lg:col-start-4 lg:col-span-6">
                         <h2 class="text-3xl text-center md:text-left font-extrabold text-gray-600" id="join-heading">
-                            Vaccine Appoint Confirmation</h2>
+                            Vaccine Appointment Confirmation</h2>
                             <div class="border-b border-gray-200 flex flex-wrap pb-6">
                                 <div class="w-full md:w-1/2">
                                     <div class="text-sm text-gray-400">Name</div>
