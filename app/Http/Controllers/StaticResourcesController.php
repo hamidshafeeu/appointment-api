@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Slot;
 use App\Helpers\Dhifaau;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class StaticResourcesController extends Controller
 {
@@ -27,8 +29,16 @@ class StaticResourcesController extends Controller
         return $dhifaau->getOpenDates();
     }
     
-    public function center_date_slots($id, $date, Dhifaau $dhifaau)
+    public function center_date_slots($id, $date)
     {
-        return $dhifaau->getSlots();
+        return Redis::get( $date.':'.$id);
+        // return Slot::center($id)->date($date)->get();
+    }
+
+    public function centers()
+    {
+        return response()->json(
+            json_decode(Redis::get('centers'))
+        );
     }
 }

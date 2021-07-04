@@ -48,8 +48,10 @@ class AuthController extends Controller
     {
         try {
             if( $otpHelper->verify($request->get('otp')) ) {
+                $otpHelper->clean($request->auth->get('phone'));
                 return response()->json([
                     'message' => 'OTP verified!',
+                    'token' => token($request->auth->getPayload() + ['otp-verified' => true]),
                     'otp-verified' => true,
                 ], 200);
             }

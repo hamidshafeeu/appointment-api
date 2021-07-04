@@ -1,9 +1,10 @@
 <?php
 namespace App\Helpers;
 
-use App\Jobs\SendSMS;
-use Carbon\Carbon;
 use Exception;
+use Carbon\Carbon;
+use App\Jobs\SendSMS;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class OTPHelper {
@@ -16,6 +17,8 @@ class OTPHelper {
             $otp = rand(1000, 9999);
             $this->storeOTP($otp, $phone);
             dispatch(new SendSMS($phone, "Use {$otp} to proceed to make appointment."));
+
+            Log::info("$otp sent to $phone");
             return $otp;
         } else {
             if($this->releaseIfAllowable($phone)) {
@@ -41,10 +44,15 @@ class OTPHelper {
     {
         if( $info = $this->getCode($this->getIdentifier()) ) {
             if( Carbon::parse($info->at)->diffInMinutes() > 20) {
-                Redis::set($phone.':count', 0);
+                $this->clean($phone);
                 return true;
             }
         }
+    }
+
+    public function clean($phone)
+    {
+        Redis::set($phone.':count', 0);
     }
 
     private function audit($phone)
@@ -73,7 +81,11 @@ class OTPHelper {
 
     protected function getIdentifier()
     {
-        return request()->auth && request()->auth->get('identifier');
+        if( $auth = request()->auth ) {
+            return $auth->get('identifier');
+        } elseif( request()->has('identifier') ) {
+            return request()->get('identifier');
+        }
     }
 
     public function verify($userCode, $identifier=null)
@@ -81,13 +93,12 @@ class OTPHelper {
         if( !$identifier ) {
             $identifier = $this->getIdentifier();
         }
+
         if( $code = $this->getCode($identifier) ) {
+            // dd($this->getIdentifier(), $code, $this->isCodeValid($code), $code->otp, $userCode);
             // dd($this->getCode($identifier), $identifier, $this->isCodeValid($code), $code->otp , $userCode );
             if( $this->isCodeValid($code) && $code->otp == $userCode ) {
                 return true;
-            }
-            else {
-                throw new Exception("OTP Code expired.");
             }
         } else {
             throw new Exception("OTP Code is not valid.");
@@ -107,6 +118,6 @@ class OTPHelper {
             return Carbon::parse($data->get('at') )->diffInMinutes() <= 10;
         }
         
-        return false;
+        throw new Exception("OTP has expired. Try again.");
     }
 }

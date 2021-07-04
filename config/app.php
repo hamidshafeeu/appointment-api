@@ -2,6 +2,8 @@
 
 return [
 
+    'admin_token' => env('ADMIN_TOKEN', 'let-me-in'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

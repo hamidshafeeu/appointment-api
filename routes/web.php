@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Booking;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/appointment/{booking:hash}', function (Booking $booking) {
+    return view('qr', compact('booking'));
+})->name('booking.view');
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });

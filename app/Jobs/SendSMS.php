@@ -53,11 +53,11 @@ class SendSMS implements ShouldQueue
             return 0;
         }
         else {
-            dd(json_encode([
-                // TODO change to phone
-                'phone' => $this->phone,
-                'message' => $this->message,
-            ]));
+            // dd(json_encode([
+            //     // TODO change to phone
+            //     'phone' => $this->phone,
+            //     'message' => $this->message,
+            // ]));
             throw new \Exception("Could not send SMS. Try again...");
         }
     }

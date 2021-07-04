@@ -16,15 +16,20 @@ class ApiAuth
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $option = null)
     {
 
+        
         if( $request->hasHeader('Authorization') ) {
             try {
                 $token = JWTFacade::parse($request->header('authorization'))->validate("");
                 // dd($token->getPayload());
                 $request->offsetSet('auth', $token);
                 return $next($request);
+                // if( $option == 'post-otp' && $token->get('otp-verified') == true ) {
+                // } else {
+                    // throw new AuthenticationException("OTP is not verified.");
+                // }
                 //code...
             } catch (\Throwable $th) {
                 //throw $th;
