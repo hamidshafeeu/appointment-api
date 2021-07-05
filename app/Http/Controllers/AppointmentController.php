@@ -54,7 +54,7 @@ class AppointmentController extends Controller
                 dispatch(new ProcessAppointment($booking));
                 
                 return response()->json([
-                    'message' => 'Appointment successfully requested. You\'ll get a message with details and QR code shortly on confirmation.'
+                    'message' => 'Appointment requested. You\'ll get a message with details and QR code shortly on confirmation.'
                 ], 201);
             }
 

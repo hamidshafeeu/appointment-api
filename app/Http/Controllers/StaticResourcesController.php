@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Slot;
-use App\Helpers\Dhifaau;
 use App\Models\Booking;
+use App\Helpers\Dhifaau;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class StaticResourcesController extends Controller
@@ -27,7 +28,7 @@ class StaticResourcesController extends Controller
     
     public function center_dates($id, Dhifaau $dhifaau)
     {
-        return array_values(Slot::where('date', '>=', now())->get()->pluck('date')->unique()->sort()->toArray());
+        return array_values(Slot::has('active_bookings', '=', DB::raw('allocations'))->whereRaw('date', '>=', now())->get()->pluck('date')->unique()->sort()->toArray());
     }
     
     public function center_date_slots($id, $date)
