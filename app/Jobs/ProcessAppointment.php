@@ -35,7 +35,7 @@ class ProcessAppointment implements ShouldQueue
     public function handle()
     {
         $heoc = app(HEOC::class);
-        if( $heoc->eligibleForAppointment($this->booking->identifier) ) {
+        if( $heoc->eligibleForAppointment($this->booking->identifier, $this->booking->name) ) {
             $this->booking->approve();
             dispatch(new SendSMS( 
                 $this->booking->phone,  

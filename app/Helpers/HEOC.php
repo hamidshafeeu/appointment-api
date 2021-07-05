@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Http;
 
 class HEOC {
     
-    public function eligibleForAppointment($identifier)
+    public function eligibleForAppointment($identifier, $name)
     {
-        return $this->verifyWithDhifaau($identifier) == true && $this->verifyWithOB($identifier) == true;
+        return $this->verifyWithDhifaau($identifier, $name) == true && $this->verifyWithOB($identifier) == true;
     }
 
     public function raiseOBTicket($message)
