@@ -63,7 +63,8 @@ class HEOC {
                     $his_name = Arr::get($vaccines, '0.person.name');
                     $contact = Arr::get($vaccines, '0.person.primary_contact');
                     dispatch(new RaiseTicket("Could not validate user details of `$his_name` [name provided for appointment is `$name`] ($identifier). His likely contact number is $contact"));
-                    throw new Exception("Could not match your details");
+                    // throw new Exception("Could not match your details");
+                    return false;
                 }
             }
             else {
