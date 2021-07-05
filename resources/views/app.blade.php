@@ -8,20 +8,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Vaccine Appointments • HPA</title>
     <meta name="title" content="Vaccine Appointments • HPA">
-    <meta name="description" content="Get yourself signed up for an online appointment. No more queues.">
+    <meta name="description" content="Get yourself signed up for an online appointment.">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://book.hpa.gov.mv/">
     <meta property="og:title" content="Vaccine Appointments • HPA">
-    <meta property="og:description" content="Get yourself signed up for an online appointment. No more queues.">
+    <meta property="og:description" content="Get yourself signed up for an online appointment.">
     <meta property="og:image" content="https://my.health.mv/dhifaau-logo-primary.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://book.hpa.gov.mv/">
     <meta property="twitter:title" content="Vaccine Appointments • HPA">
-    <meta property="twitter:description" content="Get yourself signed up for an online appointment. No more queues.">
+    <meta property="twitter:description" content="Get yourself signed up for an online appointment.">
     <meta property="twitter:image" content="https://my.health.mv/dhifaau-logo-primary.png">
     <base href="/" />
     <link rel="icon" type="image/x-icon" href="https://my.health.mv/dhifaau-logo-primary.png">
