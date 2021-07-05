@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CacheController;
 use App\Http\Controllers\SlotsController;
 use App\Http\Controllers\StaticResourcesController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/begin', [AuthController::class, 'begin']);//->middleware('throttle:10,1');
+Route::post('/begin', [AuthController::class, 'begin'])->middleware('throttle:10,1');
+Route::post('/let-us-know', TicketController::class)->middleware('throttle:10,1');
 
 Route::middleware('api-auth:pre-otp')->group(function($router) {
     $router->post('/otp', [AuthController::class, 'otp']);

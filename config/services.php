@@ -54,5 +54,10 @@ return [
         'url' => env('OB_URL'),
         'token' => env('OB_TOKEN'),
     ],
+    
+    'nazi_api' => [
+        'url' => env('NAZI_API_URL'),
+        'token' => env('NAZI_API_TOKEN'),
+    ],
 
 ];

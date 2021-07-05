@@ -50,11 +50,11 @@ class AppointmentController extends Controller
                     'phone' => request()->auth->get('phone'),
                     'hash' => Str::random(32),
                 ]);
-                
+
                 dispatch(new ProcessAppointment($booking));
                 
                 return response()->json([
-                    'message' => 'Appointment successfully requested. You\'ll get a mssage with details and QR code shortly on confirmation.'
+                    'message' => 'Appointment successfully requested. You\'ll get a message with details and QR code shortly on confirmation.'
                 ], 201);
             }
 

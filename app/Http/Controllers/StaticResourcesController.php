@@ -32,8 +32,8 @@ class StaticResourcesController extends Controller
     
     public function center_date_slots($id, $date)
     {
-        return Redis::get( $date.':'.$id);
-        // return Slot::center($id)->date($date)->get();
+        return Slot::withCount('active_bookings')->site($id)->date($date)->get();
+        // return Redis::get( $date.':'.$id);
     }
 
     public function centers()

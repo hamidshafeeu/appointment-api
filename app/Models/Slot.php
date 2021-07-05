@@ -12,7 +12,7 @@ class Slot extends Model
 
     protected $guarded = [];
 
-    public function scopeCenter($q, $center_id)
+    public function scopeSite($q, $center_id)
     {
         return $q->where('center_id', $center_id);
     }
@@ -35,6 +35,16 @@ class Slot extends Model
     public function getStartAttribute($v)
     {
         return substr($v,0,5);
+    }
+
+    public function active_bookings()
+    {
+        return $this->bookings()->where('status', '<>', 'pending');
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
    
     public function getEndAttribute($v)
