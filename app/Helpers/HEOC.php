@@ -39,8 +39,20 @@ class HEOC {
         throw new Exception("Could not raise a ticket on OB!");
     }
 
-    private function similar($name, $other) {
-        return metaphone($name) == metaphone($other);
+    public function similar($name, $other) {
+
+        $src_names = explode(' ', $name);
+        $dst_names = explode(' ', $other);
+
+        foreach($src_names as $src_name) {
+            foreach ($dst_names as $dst_name) {
+                if(metaphone($src_name) == metaphone($dst_name)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
     
     public function verifyWithDhifaau($identifier, $name)
