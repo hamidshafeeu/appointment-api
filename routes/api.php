@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/begin', [AuthController::class, 'begin'])->middleware('throttle:10,1');
-Route::post('/let-us-know', TicketController::class)->middleware('throttle:10,1');
+Route::post('/begin', [AuthController::class, 'begin']);//->middleware('throttle:10,1');
+Route::post('/let-us-know', TicketController::class);//->middleware('throttle:10,1');
 
 Route::middleware('api-auth:pre-otp')->group(function($router) {
     $router->post('/otp', [AuthController::class, 'otp']);
