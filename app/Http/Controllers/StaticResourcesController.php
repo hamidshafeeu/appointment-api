@@ -5,43 +5,59 @@ namespace App\Http\Controllers;
 use App\Models\Slot;
 use App\Models\Booking;
 use App\Helpers\Dhifaau;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
+use App\Models\Center;
+use Illuminate\Support\Facades\Cache;
 
 class StaticResourcesController extends Controller
 {
     public function atolls(Dhifaau $dhifaau)
     {
-        return $dhifaau->atolls();
+        return Cache::remember("atolls", 5*60*1000, function () use ($dhifaau) {
+            return $dhifaau->atolls();
+        });
     }
     
     public function atoll_islands($id, Dhifaau $dhifaau)
     {
-        return $dhifaau->islands_per_atoll($id);
+        return Cache::remember("islands:$id", 5*60*1000, function () use ($id, $dhifaau) {
+            return $dhifaau->islands_per_atoll($id);
+        });
     }
     
     public function island_centers($id, Dhifaau $dhifaau)
     {
-        return $dhifaau->centers_per_island($id);
+        return Cache::remember("centers:$id", 5*60*1000, function () use ($id, $dhifaau) {
+            return $dhifaau->centers_per_island($id);
+        });
     }
     
-    public function center_dates($id, Dhifaau $dhifaau)
+    public function center_dates($id)
     {
-        return array_values(Slot::vacant()->where('date', '>=', now())->get()->pluck('date')->unique()->sort()->toArray());
+        return Cache::remember("dates:$id", 5*60*1000, function () use ($id) {
+            return array_values(Slot::vacant()
+                ->when($id, function($q, $id) {
+                    return $q->site($id);
+                })
+                ->where('date', '>=', now())
+                ->get()
+                ->pluck('date')
+                ->unique()
+                ->sort()
+                ->toArray()
+            );
+        });
     }
     
     public function center_date_slots($id, $date)
     {
         return Slot::withCount('active_bookings')->vacant()->site($id)->date($date)->get();
-        // return Redis::get( $date.':'.$id);
     }
 
     public function centers()
     {
-        return response()->json(
-            json_decode(Redis::get('centers'))
-        );
+        return Cache::remember('centers', 5*60*1000, function () {
+            return Center::select(['id', 'name'])->get();
+        });
     }
 
     public function mine()
