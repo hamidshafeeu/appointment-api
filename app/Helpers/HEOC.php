@@ -71,7 +71,8 @@ class HEOC {
             }
         }
 
-        throw new Exception("Could not look with dhifaau up!");
+        // throw new Exception("Could not look with dhifaau up!");
+        return false;
     }
     
     public function verifyWithOB($identifier)
@@ -90,7 +91,8 @@ class HEOC {
 
         }
 
-        throw new Exception("Could not look with OB up!");
+        // throw new Exception("Could not look with OB up!");
+        return false;
     }
 
 }
