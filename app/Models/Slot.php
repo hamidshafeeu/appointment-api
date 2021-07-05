@@ -39,7 +39,7 @@ class Slot extends Model
 
     public function active_bookings()
     {
-        return $this->bookings()->where('status', '<>', 'cancelled');
+        return $this->bookings()->where('status', '<>', 'rejected');
     }
 
     public function bookings()
