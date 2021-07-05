@@ -1,5 +1,5 @@
-The vaccine appointment for {{$booking->name}} ({{$booking->identifier}}) could not be confirmed. 
-If you are entitled to get a vaccine dose please use this link to raise a ticket with us, we will reach you asap. 
+The vaccine appointment request for {{$booking->name}} ({{$booking->identifier}}) is rejected. 
+If you are entitled to get a vaccine dose, please let us know at https://book.hpa.gov.mv/. We will reach you soon.
 
 Thank you
 HPA
