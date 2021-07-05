@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Slot extends Model
 {
@@ -35,6 +36,11 @@ class Slot extends Model
     public function getStartAttribute($v)
     {
         return substr($v,0,5);
+    }
+
+    public function scopeVacant($q)
+    {
+        return $q->has('active_bookings', '<', DB::raw('allocations'));
     }
 
     public function active_bookings()

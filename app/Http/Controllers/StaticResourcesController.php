@@ -28,12 +28,12 @@ class StaticResourcesController extends Controller
     
     public function center_dates($id, Dhifaau $dhifaau)
     {
-        return array_values(Slot::has('active_bookings', '=', DB::raw('allocations'))->whereRaw('date', '>=', now())->get()->pluck('date')->unique()->sort()->toArray());
+        return array_values(Slot::vacant()->where('date', '>=', now())->get()->pluck('date')->unique()->sort()->toArray());
     }
     
     public function center_date_slots($id, $date)
     {
-        return Slot::withCount('active_bookings')->site($id)->date($date)->get();
+        return Slot::withCount('active_bookings')->vacant()->site($id)->date($date)->get();
         // return Redis::get( $date.':'.$id);
     }
 
