@@ -1,9 +1,10 @@
 <?php
 namespace App\Helpers;
 
-use App\Jobs\RaiseTicket;
 use Exception;
+use App\Jobs\RaiseTicket;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class HEOC {
@@ -51,14 +52,19 @@ class HEOC {
         if ($resp->successful()) {
             $vaccines = $resp->json();
 
-            if (count($vaccines)) {
+            if (
+                count($vaccines) == 1 
+                && Arr::get($vaccines, '0.dose.id') == 1 
+                && Carbon::parse(Arr::get($vaccines, '0.vaccinated_at'))->lt(Carbon::parse('2021-04-01')) 
+            ) {
                 if ($this->similar($name, Arr::get($vaccines, '0.person.name'))) {
-                    $c = collect($vaccines);
-                    return $c->filter(function ($item) {
-                        return Arr::get($item, 'dose.id') == 1;
-                    })->count() > 0 && $c->filter(function ($item) {
-                        return Arr::get($item, 'dose.id') == 2;
-                    })->count() == 0 ;
+                    // $c = collect($vaccines);
+                    // return $c->filter(function ($item) {
+                    //     return Arr::get($item, 'dose.id') == 1;
+                    // })->count() > 0 && $c->filter(function ($item) {
+                    //     return Arr::get($item, 'dose.id') == 2;
+                    // })->count() == 0 ;
+                    return true;
                 } else {
                     $his_name = Arr::get($vaccines, '0.person.name');
                     $contact = Arr::get($vaccines, '0.person.primary_contact');
@@ -68,7 +74,7 @@ class HEOC {
                 }
             }
             else {
-                return true;
+                return false;
             }
         }
 
