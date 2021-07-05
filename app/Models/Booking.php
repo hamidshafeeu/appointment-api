@@ -50,7 +50,7 @@ class Booking extends Model
 
     public function getIsCancellableAttribute()
     {
-        return true; // $this->status == 'pending' && Carbon::parse($this->slot->date.' '.$this->slot->start)->gt(now());
+        return $this->status != 'rejected'; // $this->status == 'pending' && Carbon::parse($this->slot->date.' '.$this->slot->start)->gt(now());
     }
 
 }
