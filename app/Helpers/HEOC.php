@@ -88,7 +88,7 @@ class HEOC {
             'authorization' => 'Bearer '. config('services.ob.token'),
         ])->get( config('services.ob.url') . "/Individual/Status/$identifier");
 
-        if ( $resp->successful() ) {
+        if ( $resp->status() == 200 ) {
 
             if( $vaccines = $resp->json() ) {
                 return collect($vaccines)->filter(function($item) {
@@ -96,7 +96,12 @@ class HEOC {
                 })->count() > 0;
             }
 
+        
+        } elseif ( $resp->status() == 406 ) { 
+
+            return Arr::get($resp->json(), 'message')  == "no such person found as $identifier";
         }
+
 
         // throw new Exception("Could not look with OB up!");
         return false;

@@ -145,7 +145,7 @@
                                 </div>
                                 <div class="w-full md:w-1/2">
                                     <div class="text-sm text-gray-400">Date</div>
-                                    <div class="text-lg text-gray-600">{{ $booking->slot->formatted_date }} @ {{ $booking->slot->start }}-{{ $booking->slot->end }}</div>
+                                    <div class="text-lg text-gray-600">{{ \Illuminate\Support\Carbon::parse($booking->slot->date)->format('l, d M Y') }} @ {{ $booking->slot->start }}-{{ $booking->slot->end }}</div>
                                 </div>
                                 {{-- <div class="text-lg text-gray-600">{{ $booking->slot->start }} TO {{ $booking->slot->end }}</div>
                                 <div class="text-lg text-gray-600">{{ $booking->slot->start }} TO {{ $booking->slot->end }}</div>
