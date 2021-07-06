@@ -12,28 +12,28 @@ class StaticResourcesController extends Controller
 {
     public function atolls(Dhifaau $dhifaau)
     {
-        return Cache::remember("atolls", 5*60*1000, function () use ($dhifaau) {
+        return Cache::remember("atolls", 5*60, function () use ($dhifaau) {
             return $dhifaau->atolls();
         });
     }
     
     public function atoll_islands($id, Dhifaau $dhifaau)
     {
-        return Cache::remember("islands:$id", 5*60*1000, function () use ($id, $dhifaau) {
+        return Cache::remember("islands:$id", 5*60, function () use ($id, $dhifaau) {
             return $dhifaau->islands_per_atoll($id);
         });
     }
     
     public function island_centers($id, Dhifaau $dhifaau)
     {
-        return Cache::remember("centers:$id", 5*60*1000, function () use ($id, $dhifaau) {
+        return Cache::remember("centers:$id", 5*60, function () use ($id, $dhifaau) {
             return $dhifaau->centers_per_island($id);
         });
     }
     
     public function center_dates($id)
     {
-        return Cache::remember("dates:$id", 5*60*1000, function () use ($id) {
+        return Cache::remember("dates:$id", 5*60, function () use ($id) {
             return array_values(Slot::vacant()
                 ->when($id, function($q, $id) {
                     return $q->site($id);
@@ -55,7 +55,7 @@ class StaticResourcesController extends Controller
 
     public function centers()
     {
-        return Cache::remember('centers', 5*60*1000, function () {
+        return Cache::remember('centers', 5*60, function () {
             return Center::select(['id', 'name'])->get();
         });
     }
