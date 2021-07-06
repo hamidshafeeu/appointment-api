@@ -50,7 +50,11 @@ class StaticResourcesController extends Controller
     
     public function center_date_slots($id, $date)
     {
-        return Slot::withCount('active_bookings')->vacant()->site($id)->date($date)->get();
+        return Slot::withCount('active_bookings')
+            ->vacant()
+            ->site($id)
+            ->date($date)
+            ->get();
     }
 
     public function centers()
@@ -63,6 +67,10 @@ class StaticResourcesController extends Controller
     public function mine()
     {
         $identifier = request()->auth->get('identifier');
-        return Booking::with('slot.center')->identifier( $identifier )->get();
+        $phone = request()->auth->get('phone');
+        return Booking::with('slot.center')
+            ->phone($phone)
+            ->identifier( $identifier )
+            ->get();
     }
 }

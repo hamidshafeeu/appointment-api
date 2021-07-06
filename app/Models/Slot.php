@@ -22,6 +22,11 @@ class Slot extends Model
     {
         return $q->where('date', $date);
     }
+    
+    public function scopeNotExpired($q)
+    {
+        return $q->whereRaw("concat(date, ' ', start) > now()");
+    }
 
     public function cacheKey()
     {

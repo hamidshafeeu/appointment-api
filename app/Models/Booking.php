@@ -17,6 +17,11 @@ class Booking extends Model
         return $q->where('identifier', $identifier);
     }
     
+    public function scopePhone($q, $phone)
+    {
+        return $q->where('phone', $phone);
+    }
+    
     public function scopePending($q)
     {
         return $q->where('status', 'pending');
@@ -35,6 +40,11 @@ class Booking extends Model
     public function slot()
     {
         return $this->belongsTo(Slot::class);
+    }
+
+    public function approved()
+    {
+        return $this->status == 'approved';
     }
 
     public function approve()
