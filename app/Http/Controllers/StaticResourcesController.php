@@ -38,8 +38,7 @@ class StaticResourcesController extends Controller
                 ->when($id, function($q, $id) {
                     return $q->site($id);
                 })
-                ->vacant()
-                ->where('date', '>=', now())
+                ->whereDate('date', '>=', now())
                 ->get()
                 ->pluck('date')
                 ->unique()
