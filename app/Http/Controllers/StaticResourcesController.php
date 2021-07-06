@@ -51,6 +51,7 @@ class StaticResourcesController extends Controller
     public function center_date_slots($id, $date)
     {
         return Slot::withCount('active_bookings')
+            ->notExpired()
             ->vacant()
             ->site($id)
             ->date($date)
