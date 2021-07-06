@@ -34,6 +34,12 @@ class AppointmentController extends Controller
                 'message' => 'You already have a pending appointment.'
             ], 406);
         }
+        
+        if( Booking::identifier($bookingRequest->auth->get('identifier'))->approved()->exists() ) {
+            return response()->json([
+                'message' => 'You already have an approved appointment.'
+            ], 406);
+        }
 
         if($slot = Slot::find(request()->input('slot.id'))) {
 
