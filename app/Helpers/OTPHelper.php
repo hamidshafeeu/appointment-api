@@ -100,10 +100,8 @@ class OTPHelper {
             if( $this->isCodeValid($code) && $code->otp == $userCode ) {
                 return true;
             }
-        } else {
-            throw new Exception("OTP Code is not valid.");
         }
-        return true;
+        throw new Exception("OTP Code is not valid.");
     }
 
     private function getCode($identifier)
