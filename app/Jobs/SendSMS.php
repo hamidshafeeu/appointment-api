@@ -49,7 +49,7 @@ class SendSMS implements ShouldQueue
         ]);
 
         if( $resp->successful() ) {
-            Log::info("SMS sent");
+            Log::info("SMS sent: \n". $this->message);
             return 0;
         }
         else {

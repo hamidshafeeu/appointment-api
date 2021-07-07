@@ -22,6 +22,11 @@ class Booking extends Model
         return $q->where('phone', $phone);
     }
     
+    public function scopehash($q, $hash)
+    {
+        return $q->where('hash', $hash);
+    }
+    
     public function scopePending($q)
     {
         return $q->where('status', 'pending');
