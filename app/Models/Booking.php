@@ -36,6 +36,7 @@ class Booking extends Model
     {
         return $q->where('status', 'approved');
     }
+
     public function scopeNotRejected($q)
     {
         return $q->where('status', '<>', 'rejected');

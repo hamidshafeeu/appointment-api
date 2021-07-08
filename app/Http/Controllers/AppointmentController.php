@@ -29,7 +29,9 @@ class AppointmentController extends Controller
     public function store(BookingRequest $bookingRequest)
     {
 
-        if( Booking::notRejected()->identifier($bookingRequest->auth->get('identifier'))->exists() ) {
+        if( Booking::notRejected()->whereHas('slot', function($q) {
+            return $q->notExpired();
+        })->identifier($bookingRequest->auth->get('identifier'))->exists() ) {
             return response()->json([
                 'message' => 'You already have a pending appointment.'
             ], 406);
