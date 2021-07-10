@@ -81,7 +81,7 @@
             @endforeach
         </ul>
         <div class="p-4 border-t">
-            {{ $bookings->links() }}
+            {{ $bookings->appends(request()->only('q'))->links() }}
         </div>
     </div>
 
