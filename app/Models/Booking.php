@@ -37,6 +37,16 @@ class Booking extends Model
         return $this->status == 'pending';
     }
     
+    public function rejected()
+    {
+        return $this->status == 'rejected';
+    }
+    
+    public function notRejected()
+    {
+        return !$this->rejected();
+    }
+    
     public function scopeApproved($q)
     {
         return $q->where('status', 'approved');

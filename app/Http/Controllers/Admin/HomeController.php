@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendSMS;
 use App\Models\Booking;
+use Illuminate\Support\Facades\Log;
 use STS\JWT\JWTFacade;
 
 class HomeController extends Controller
@@ -27,17 +28,48 @@ class HomeController extends Controller
                     'link' => $this->getSignedUrl($booking)
                 ])->render()
             ));
+            Log::channel('bot')->info( __(':user resent the sms for the appointment for :name (:identifier) on :date from :start to :end at :venue.', $booking->getAttributes() + [
+                'user' => auth()->user()->name,
+                'date' => $booking->slot->date,
+                'start' => $booking->slot->start,
+                'end' => $booking->slot->end,
+                'venue' => $booking->slot->center->name,
+            ] ) );
             return back()->with('message', 'SMS re-scheduled');
         }
+
+        Log::channel('bot')->info( __(':user attempted to resend the sms for the appointment for :name (:identifier) on :date from :start to :end at :venue but failed..', $booking->getAttributes() + [
+            'user' => auth()->user()->name,
+            'date' => $booking->slot->date,
+            'start' => $booking->slot->start,
+            'end' => $booking->slot->end,
+            'venue' => $booking->slot->center->name,
+        ] ) );
         return back()->with('message', 'Could not re-schedule.');
     }
     
     public function cancel()
     {
-        if($booking = Booking::hash(request('hash'))->pending()->first()) {
-            $booking->reject();
+        if($booking = Booking::hash(request('hash'))->notRejected()->first()) {
+            
+            Log::channel('bot')->info( __(':user rejected the appointment for :name (:identifier) on :date from :start to :end at :venue.', $booking->getAttributes() + [
+                'user' => auth()->user()->name,
+                'date' => $booking->slot->date,
+                'start' => $booking->slot->start,
+                'end' => $booking->slot->end,
+                'venue' => $booking->slot->center->name,
+            ] ) );
             return back()->with('message', 'Booking rejected');
         }
+
+        Log::channel('bot')->info( __(':user tried rejecting the appointment for :name (:identifier) on :date from :start to :end at :venue but failed.', $booking->getAttributes() + [
+            'user' => auth()->user()->name,
+            'date' => $booking->slot->date,
+            'start' => $booking->slot->start,
+            'end' => $booking->slot->end,
+            'venue' => $booking->slot->center->name,
+        ] ) );
+
         return back()->with('message', 'Could not reject.');
     }
     
@@ -82,6 +114,9 @@ class HomeController extends Controller
             $jwt = JWTFacade::parse($token);
             try {
                 if($jwt->validate('')) {
+                    Log::channel('bot')->info( __(':user logged in.', [
+                        'user' => auth()->user()->name,
+                    ] ) );
                     return redirect()->to('/admin')->withCookie(cookie(
                         config('app.name').'_admin', $token, 15, null, null, true
                     ));
