@@ -59,5 +59,9 @@ return [
         'url' => env('NAZI_API_URL'),
         'token' => env('NAZI_API_TOKEN'),
     ],
+    
+    'discord_bot' => [
+        'webhook' => env('BOT_WEBHOOK'),
+    ],
 
 ];

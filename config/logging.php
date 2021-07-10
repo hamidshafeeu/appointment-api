@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\BotLogger;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -95,6 +96,11 @@ return [
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
+        ],
+        
+        'bot' => [
+            'driver' => 'monolog',
+            'handler' => BotLogger::class,
         ],
 
         'emergency' => [
