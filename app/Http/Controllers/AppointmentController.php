@@ -46,7 +46,7 @@ class AppointmentController extends Controller
         if($slot = Slot::find(request()->input('slot.id'))) {
 
             if(
-                Booking::notRejected()->slot(request()->input('slot.id'))->count() < $slot->allocations )
+                Booking::query()->notRejected()->slot(request()->input('slot.id'))->count() < $slot->allocations )
             {
                 $data = $bookingRequest->merge($bookingRequest->auth->getPayload())->all();
                 publish($data);
