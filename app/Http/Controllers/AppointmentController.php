@@ -29,7 +29,7 @@ class AppointmentController extends Controller
     public function store(BookingRequest $bookingRequest)
     {
 
-        if( Booking::notRejected()->whereHas('slot', function($q) {
+        if( Booking::query()->notRejected()->whereHas('slot', function($q) {
             return $q->notExpired();
         })->identifier($bookingRequest->auth->get('identifier'))->exists() ) {
             return response()->json([
