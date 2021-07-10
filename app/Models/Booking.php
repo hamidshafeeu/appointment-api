@@ -31,6 +31,11 @@ class Booking extends Model
     {
         return $q->where('status', 'pending');
     }
+
+    public function pending()
+    {
+        return $this->status == 'pending';
+    }
     
     public function scopeApproved($q)
     {

@@ -66,6 +66,14 @@
                                 <button type="submit" class="bg-green-700 px-4 py-1 rounded-lg text-white hover:bg-green-500">Re-send SMS</button>
                             </form>
                             @endif
+
+                            @if( $booking->pending() )
+                            <form onsubmit="ask(event, 'Are you sure you want to reject {{$booking->name}}?')" action="{{ route('cancel') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="hash" value="{{ $booking->hash }}">
+                                <button type="submit" class="bg-red-700 px-4 py-1 rounded-lg text-white hover:bg-red-500">Reject</button>
+                            </form>
+                            @endif
                         </div>
                     </div>
                 </a>
@@ -77,4 +85,15 @@
         </div>
     </div>
 
+
+    <script>
+
+        function ask(evt, message) {
+            if(!confirm(message)) {
+                evt.preventDefault();
+            }
+            return false;
+        }
+
+    </script>
 </x-app>

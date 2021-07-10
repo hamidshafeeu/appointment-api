@@ -31,7 +31,16 @@ class HomeController extends Controller
         }
         return back()->with('message', 'Could not re-schedule.');
     }
-
+    
+    public function cancel()
+    {
+        if($booking = Booking::hash(request('hash'))->pending()->first()) {
+            $booking->reject();
+            return back()->with('message', 'Booking rejected');
+        }
+        return back()->with('message', 'Could not reject.');
+    }
+    
     public function getSignedUrl($booking)
     {
         return URL::signedRoute('booking.view', ['booking' => $booking->hash]);

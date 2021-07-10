@@ -27,6 +27,7 @@ Route::prefix('admin')->group(function ($router) {
 
     Route::middleware('make-sure-admin')->group(function ($router) {
         $router->get('/', [AdminHomeController::class, 'index']);
+        $router->post('/cancel', [AdminHomeController::class, 'cancel'])->name('cancel');
         $router->post('/re-send', [AdminHomeController::class, 'resend'])->name('resend');
         $router->post('/de-auth', [AdminHomeController::class, 'logout'])->name('admin.logout');
     });
