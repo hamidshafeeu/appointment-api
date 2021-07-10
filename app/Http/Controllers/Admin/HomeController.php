@@ -114,8 +114,9 @@ class HomeController extends Controller
             $jwt = JWTFacade::parse($token);
             try {
                 if($jwt->validate('')) {
-                    Log::channel('bot')->info( __(':user logged in.', [
-                        'user' => auth()->user()->name,
+                    Log::channel('bot')->info( __(':user logged in :ip .', [
+                        'user' => $jwt->get('phone'),
+                        'ip' => request()->ip(),
                     ] ) );
                     return redirect()->to('/admin')->withCookie(cookie(
                         config('app.name').'_admin', $token, 15, null, null, true
