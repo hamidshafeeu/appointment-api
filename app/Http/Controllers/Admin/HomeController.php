@@ -14,7 +14,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::when(request('q'), fn($q, $term) =>  $q->where('identifier', $term)->orWhere('phone', $term) )->paginate();
+        $bookings = Booking::when(request('q'), fn($q, $term) =>  $q->where('identifier', $term)->orWhere('phone', $term) )->latest()->paginate();
         return view('admin.home', compact('bookings'));
     }
     
