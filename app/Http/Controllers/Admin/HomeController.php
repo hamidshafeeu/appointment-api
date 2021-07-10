@@ -51,15 +51,16 @@ class HomeController extends Controller
     public function cancel()
     {
         if($booking = Booking::hash(request('hash'))->notRejected()->first()) {
-            
-            Log::channel('bot')->info( __(':user rejected the appointment for :name (:identifier) on :date from :start to :end at :venue.', $booking->getAttributes() + [
-                'user' => auth()->user()->name,
-                'date' => $booking->slot->date,
-                'start' => $booking->slot->start,
-                'end' => $booking->slot->end,
-                'venue' => $booking->slot->center->name,
-            ] ) );
-            return back()->with('message', 'Booking rejected');
+            if($booking->cancel()) {
+                Log::channel('bot')->info( __(':user rejected the appointment for :name (:identifier) on :date from :start to :end at :venue.', $booking->getAttributes() + [
+                    'user' => auth()->user()->name,
+                    'date' => $booking->slot->date,
+                    'start' => $booking->slot->start,
+                    'end' => $booking->slot->end,
+                    'venue' => $booking->slot->center->name,
+                ] ) );
+                return back()->with('message', 'Booking rejected');
+            }
         }
 
         Log::channel('bot')->info( __(':user tried rejecting the appointment for :name (:identifier) on :date from :start to :end at :venue but failed.', $booking->getAttributes() + [
