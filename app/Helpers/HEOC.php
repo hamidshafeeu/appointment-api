@@ -67,7 +67,7 @@ class HEOC {
             if (
                 count($vaccines) == 1 
                 && Arr::get($vaccines, '0.dose.id') == 1 
-                && Carbon::parse(Arr::get($vaccines, '0.vaccinated_at'))->lt(Carbon::parse('2021-04-01')) 
+                && Carbon::parse(Arr::get($vaccines, '0.vaccinated_at'))->lt(Carbon::parse('2021-05-01')) 
             ) {
                 if ($this->similar($name, Arr::get($vaccines, '0.person.name'))) {
                     // $c = collect($vaccines);
